@@ -18,13 +18,13 @@ import contextData from '../context/MainContext';
 
 
 const Header = () => {
-  const { storeCategoryData,storeProductsData ,delivery_area,delivery_city} = useContext(contextData);
+  const { storeCategoryData, storeProductsData, delivery_area, delivery_city } = useContext(contextData);
 
   const data = useContext(MainData);
   localStorage.setItem("cartItems", JSON.stringify(data.cartItems));
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isNotSmallerScreen] = useMediaQuery("(min-width:1024px)");
-  const {  logOut, serviceArea,  cartItems, auth } = data;
+  const { logOut, serviceArea, cartItems, auth } = data;
 
   const { pathname } = useLocation();
   const [searchedProduct, setSearchedProduct] = useState(storeProductsData);
@@ -167,10 +167,10 @@ const Header = () => {
                   <div>
                     <p class="text-dark mb-0 ">Delivery Area</p>
                     <p class="text-muted mb-0 small"> {delivery_area} </p>
-                  <p class="text-muted mb-0 small">{delivery_city}  <i class="icofont-ui-edit "></i></p>
-   
+                    <p class="text-muted mb-0 small">{delivery_city}  <i class="icofont-ui-edit "></i></p>
+
                   </div>
-                  
+
                 </a>
               </div>
               {/* <a href="#" role="button" class="toggle ml-auto"><i class="icofont-navigation-menu"></i></a> */}
@@ -212,7 +212,7 @@ const Header = () => {
                   <p class="text-dark mb-0 ">Delivery Area</p>
                   <p class="text-muted mb-0 small"> {delivery_area} </p>
                   <p class="text-muted mb-0 small">{delivery_city}  <i class="icofont-ui-edit "></i></p>
-      
+
                 </div>
               </a>
             </div>
@@ -228,7 +228,8 @@ const Header = () => {
                     return (
                       <Link onClick={onBlur} class="dropdown-item" to={"/" + (item.product_full_name + " delivery in gorakhpur").replace(/\s/g, "-").toLowerCase() + "/" + item.id}>
                         <div >
-                          <img src={item?.product_image} style={{ height: 30, marginRight: 5 }} /> {item.product_full_name}
+                          <img src={item?.product_image} style={{ height: 30, marginRight: 5 }} />
+                          {item.product_full_name}
                           <span className='ml-2 ml-auto'>₹{Math.round((item?.sale_price))}/{item?.product_size + item?.product_unit}</span>
                         </div>
                       </Link>
@@ -285,13 +286,13 @@ const Header = () => {
                   {storeCategoryData.length ? (
                     <>
                       {storeCategoryData.map((item, i) => {
-                          if(item.category_level==0){
-                        return (
-                          <Link to={"/" + (item.category_name + " delivery in gorakhpur").replace(/\s/g, "-").toLowerCase() + "/" + item.master_category_id + "/" + item.category_name}>
-                            <a class="dropdown-item" href="#">{item.category_name}</a>
-                          </Link>
-                        )
-                          }
+                        if (item.category_level == 0) {
+                          return (
+                            <Link to={"/" + (item.category_name + " delivery in gorakhpur").replace(/\s/g, "-").toLowerCase() + "/" + item.master_category_id + "/" + item.category_name}>
+                              <a class="dropdown-item" href="#">{item.category_name}</a>
+                            </Link>
+                          )
+                        }
                       })}
                     </>
                   ) : null}

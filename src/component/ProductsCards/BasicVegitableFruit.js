@@ -7,7 +7,7 @@ import { MdDelete } from 'react-icons/md';
 import { BsPlusLg } from 'react-icons/bs';
 
 export const BasicVegitableFruit = ({ data }) => {
-    const {delivery_city,website_name} = useContext(ContextData);
+    const { delivery_city, website_name } = useContext(ContextData);
 
     const mainData = useContext(ContextData);
     const location = useLocation();
@@ -34,20 +34,20 @@ export const BasicVegitableFruit = ({ data }) => {
 
     return (
         <>
-            <div class="col-6 col-md-3 mb-3">
+            <div class="col-6 col-md-2 mb-3">
                 <div
-                    class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                    class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm d-flex align-items-end">
                     <div class="list-card-image">
                         {data.discount_in_percent !== "0" && <div class="member-plan position-absolute"><span
                             class="badge m-3 badge-danger">{data.discount_in_percent} %</span></div>}
                         <div class="p-3">
-                            <Link state={location.pathname}  to={"/"+(data.product_uniq_slug_name)+ "/" + data.id}>
-                                <img src={data.product_image!=='' || data.product_image!==null?data.product_image:'https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg'}
-                                //  style={{width:100,height:100}}
-                                    class="img-fluid item-img w-100 mb-3"
+                            <Link state={location.pathname} to={"/" + (data.product_uniq_slug_name) + "/" + data.id}>
+                                <img src={data.product_image !== '' || data.product_image !== null ? data.product_image : 'https://static.vecteezy.com/system/resources/previews/004/141/669/non_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg'}
+                                    //  style={{width:100,height:100}}
+                                    class="img-fluid item-img w-100 mb-3 product_image"
 
                                 />
-                                <h6 style={{ color: "#000" }}>{data.product_full_name} </h6>
+                                <h6 style={{ color: "#000", fontSize: 12 }}>{data.product_full_name} </h6>
                             </Link>
                             <div class="d-flex align-items-center">
                                 <h6 class="sale_price m-0 text-success">₹{Math.round((data.sale_price))}/{data.product_size + data.product_unit}</h6>

@@ -13,7 +13,7 @@ import Image from 'react-bootstrap/Image'
 const Category = (props) => {
 
     const data = useContext(contextData);
-    const { storeCategoryData, storeCategoryRelode,delivery_city,website_name} = useContext(contextData);
+    const { storeCategoryData, storeCategoryRelode, delivery_city, website_name } = useContext(contextData);
     const [showData, setShowData] = useState(storeCategoryData);
 
 
@@ -21,10 +21,10 @@ const Category = (props) => {
     const location = useLocation();
     const [loca, setLcoa] = useState()
 
- 
 
 
-   
+
+
     const getLocation = () => {
         navigator.geolocation.getCurrentPosition((position) => {
             const p = position.coords;
@@ -56,30 +56,30 @@ const Category = (props) => {
                         </>
                     ) : storeCategoryData ? (
                         < >
-                        <div className="row">
-                        {storeCategoryData.map((item, i) => {
-                                if(item.category_level==0){
-                                return (
-                                    <div className="col-xs-2 col-sm-4 col-4 col-md-3 col-lg-2 mb-3" key={i}>
-                                        <div className="list-card bg-white h-100">
-                                            <div className="p-4">
-                                            
-                                            
-                                                <Link state={location.pathname} to={"/" +(item.category_name).replace(/\s/g, "-").toLowerCase() + "/" + item.master_category_id + "/" + item.category_name}>
-                                                    <img 
-                                                   class="img-fluid item-img w-100 mb-3"
-                                                    src={item.category_image} 
-                                                       
-                                                    />
-                                                    <p className="m-0 pt-2 text-center" style={{ color: "#505050", fontSize: 14 }}>{item.category_name}</p>
-                                                </Link>
+                            <div className="row">
+                                {storeCategoryData.map((item, i) => {
+                                    if (item.category_level == 0) {
+                                        return (
+                                            <div className="col-6 col-sm-6 col-md-1 mt-2" key={i}>
+                                                <div className="list-card bg-none h-100">
+                                                    <div className="p-1">
+
+
+                                                        <Link state={location.pathname} to={"/" + (item.category_name).replace(/\s/g, "-").toLowerCase() + "/" + item.master_category_id + "/" + item.category_name}>
+                                                            <img
+                                                                class="img-fluid item-img w-100"
+                                                                src={item.category_image}
+
+                                                            />
+                                                            <p className="m-0 pt-1 text-center" style={{ color: "#505050", fontSize: 14 }}>{item.category_name}</p>
+                                                        </Link>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                )
-                                }
-                            })}
-                        </div>
+                                        )
+                                    }
+                                })}
+                            </div>
                         </>
                     ) : null}
                     {/* <div className="btn btn-primary" onClick={getLocation}>

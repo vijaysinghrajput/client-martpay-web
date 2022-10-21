@@ -22,7 +22,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
 import URL from './URL'
-import {constants} from './URL'
+import { constants } from './URL'
 
 import SearchPage from './page/SearchPage';
 import { OrderSuccessFull } from './component/Cart/OrderSuccessfull';
@@ -53,7 +53,7 @@ class App extends Component {
       store_delivery_city_name: 'Gorakhpur',
       store_delivery_area_name: null,
       delivery_area: '',
-      delivery_city:'',
+      delivery_city: '',
       website_name: "martpay.in"
     }
   }
@@ -82,13 +82,13 @@ class App extends Component {
 
 
   async componentDidMount() {
-    cookies.remove("isAreaDecided");
+    // cookies.remove("isAreaDecided");
 
     const store_id = cookies.get("adminStoreId");
-    const delivery_area= cookies.get("deliveryArea");
-    const delivery_city= cookies.get("deliveryCity");
+    const delivery_area = cookies.get("deliveryArea");
+    const delivery_city = cookies.get("deliveryCity");
     console.log("store_id", store_id)
-    this.setState({ store_id,delivery_area,delivery_city })
+    this.setState({ store_id, delivery_area, delivery_city })
 
     this.FetchDeliveryCity();
     this.fetchReloder()
@@ -227,13 +227,13 @@ class App extends Component {
     if (this.state.storeCategorysData.length) {
 
 
-  
+
 
       return (
 
         <>
 
-{/* <Link state={location.pathname} to={"/" +(delivery_city).replace(/\s/g, "-").toLowerCase()+"/" +(item.category_name).replace(/\s/g, "-").toLowerCase()  + item.master_category_id  + item.category_name}> */}
+          {/* <Link state={location.pathname} to={"/" +(delivery_city).replace(/\s/g, "-").toLowerCase()+"/" +(item.category_name).replace(/\s/g, "-").toLowerCase()  + item.master_category_id  + item.category_name}> */}
 
           <ContextProvider>
             {/* <ChakraProvider> */}
@@ -242,40 +242,40 @@ class App extends Component {
                 <Route path="/" element={<HomePage />} />
                 {/* <Route path='*' exact={true} element={<NotFoundPage />} /> */}
                 <Route path="/category" element={<CategoryPage />} />
-                 {this.state.storeCategorysData.map((item, i) => {
-                return (
-                  <Route path={"/"+(item.category_name).replace(/\s/g, "-").toLowerCase()  + "/:subcatID/:subcatName"} element={<ProductsBySubcategoryPage />} />
-                )
-              })}
-              {this.state.storeProductsData.map((item, i) => {
-                return (
-                  <Route path={"/"+(item.product_uniq_slug_name)+"/:prodID"} element={<ProductDetailsPage />} />
-                )
-              })} 
+                {this.state.storeCategorysData.map((item, i) => {
+                  return (
+                    <Route path={"/" + (item.category_name).replace(/\s/g, "-").toLowerCase() + "/:subcatID/:subcatName"} element={<ProductsBySubcategoryPage />} />
+                  )
+                })}
+                {this.state.storeProductsData.map((item, i) => {
+                  return (
+                    <Route path={"/" + (item.product_uniq_slug_name) + "/:prodID"} element={<ProductDetailsPage />} />
+                  )
+                })}
                 <Route path="/login" element={<LoginPage />} />
-              <Route path="/choose-area" element={<ChooseAreaPage />} />
-              <Route path="/verification" element={<Verification />} />
-              <Route path="/cart" element={<CartPage />} />
-            
-              <Route path="/search" element={<SearchPage />} />
-               
+                <Route path="/choose-area" element={<ChooseAreaPage />} />
+                <Route path="/verification" element={<Verification />} />
+                <Route path="/cart" element={<CartPage />} />
+
+                <Route path="/search" element={<SearchPage />} />
+
                 {/* USER ACCOUNT START */}
                 <Route path="/orderSuccess" element={<OrderSuccessFull />} />
-              <Route path="/accountApp" element={<AccountPageApp />} />
-              <Route path="/account" element={<AccountPage />} />
-              <Route path="/notification" element={<AccountPage />} />
-              <Route path="/offers" element={<AccountPage />} />
-              <Route path="/orders" element={<AccountPage />} />
-              <Route path="/address" element={<AccountPage />} />
-              <Route path="/condition" element={<AccountPage />} />
-              <Route path="/contact" element={<AccountPage />} />
-              <Route path="/about" element={<ConditionPage />} />
-              <Route path="/term-and-condition" element={<ConditionPage />} />
-              <Route path="/privacy-and-policy" element={<ConditionPage />} />
-              <Route path="/shipping-policy" element={<ConditionPage />} />
-              <Route path="/return-and-refund-policy" element={<ConditionPage />} />
-              <Route path="/faq" element={<ConditionPage />} />
-              
+                <Route path="/accountApp" element={<AccountPageApp />} />
+                <Route path="/account" element={<AccountPage />} />
+                <Route path="/notification" element={<AccountPage />} />
+                <Route path="/offers" element={<AccountPage />} />
+                <Route path="/orders" element={<AccountPage />} />
+                <Route path="/address" element={<AccountPage />} />
+                <Route path="/condition" element={<AccountPage />} />
+                <Route path="/contact" element={<AccountPage />} />
+                <Route path="/about" element={<ConditionPage />} />
+                <Route path="/term-and-condition" element={<ConditionPage />} />
+                <Route path="/privacy-and-policy" element={<ConditionPage />} />
+                <Route path="/shipping-policy" element={<ConditionPage />} />
+                <Route path="/return-and-refund-policy" element={<ConditionPage />} />
+                <Route path="/faq" element={<ConditionPage />} />
+
 
                 {/* USER ACCOUNT END */}
 

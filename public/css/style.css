@@ -235,6 +235,7 @@ body {
 
 .dropdown-item {
 	padding: 6px 10px;
+	white-space: unset !important;
 }
 
 .dropdown .dropdown-menu,
@@ -1294,6 +1295,8 @@ label {
 
 	.osahan-main-body {
 		padding-top: 5rem !important;
+		width: 75%;
+		margin: auto;
 	}
 
 	.plus-minus-container {
@@ -1389,6 +1392,8 @@ label {
 
 .osahan-main-body {
 	padding-top: 8rem;
+	width: 90%;
+	margin: auto;
 }
 
 .member-plan {
@@ -1468,4 +1473,19 @@ label {
 
 iframe {
 	pointer-events: none;
+}
+
+img.img-fluid.item-img {
+	border-radius: 8px;
+	/* padding: 8px;
+	background: #fff; */
+}
+
+p.m-0.pt-1.text-center {
+	font-size: 12px !important;
+}
+
+img.product_image {
+	height: 180px;
+	object-fit: cover;
 }
