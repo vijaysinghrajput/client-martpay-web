@@ -1,16 +1,19 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import MainContext from '../../context/MainContext';
+import ContextData from '../../context/MainContext';
 import { CartItemsCard } from '../ProductsCards/CartItems';
 
 const CartItems = (props) => {
 
-    const data = useContext(MainContext);
-    const { cartItems, auth, products } = data;
+    const data = useContext(MainContext); 
+    const { auth,storeProductsData, storeCategoryRelode,delivery_city,website_name} = useContext(ContextData);
+console.log("auth",auth)
+    const { cartItems  } = data;
     const navigation = useNavigate();
     const location = useLocation();
     const GetTotal = cartItems.reduce(function (a, b) {
-        const price = Math.round(((b.price) - ((b.price) * (b.discount / 100))) * b.itemQuant)
+        const price = Math.round(((b.sale_price)) * b.itemQuant)
         return a + Number(price);
     }, 0);
 
@@ -32,7 +35,7 @@ const CartItems = (props) => {
                     <div className="card-body p-0 border-top">
                         <div className="osahan-cart">
                             {cartItems.map((data, i) => {
-                                const outOfStock = products.find(o => o.id == data.id);
+                                const outOfStock = storeProductsData.find(o => o.id == data.id);
                                 return (
                                     <CartItemsCard data={data} outOfStock={outOfStock} />
                                 )

@@ -9,32 +9,12 @@ import $ from 'jquery';
 
 import Geocode from "react-geocode";
 
-import Base64 from "../../helper/EncodeDecode";
+import Base64 from "../../helper/EncodeDecode"; 
 import Cookies from 'universal-cookie';
 import { Select } from '@chakra-ui/react'
 
 
 import URL from '../../URL'
-import { position } from '@chakra-ui/styled-system';
-
-const searchOptions = {
-    // input: 'Gorakhpur Uttar Pardesh',
-    location: window.google?.maps?.LatLng(26.7606, 83.3732),
-    types: ['address'],
-    componentRestrictions: { country: "in" },
-
-
-
-}
-
-
-
-
-
-
-// import LoactionPicker from '../map/LoactionPicker'
-
-
 
 
 const cookies = new Cookies()
@@ -95,18 +75,18 @@ class Address extends Component {
         else if (e.target.id === 'user_street') {
             this.setState({ user_street: e.target.value });
         }
-        else if (e.target.id === 'base_address') {
-            this.setState({ base_address: e.target.value });
-        }
+     
     }
 
     async componentDidMount() {
         const UserIDs = cookies.get("userID");
         const UserID = UserIDs && Base64.atob(UserIDs)
-        await this.setState({ UserID })
+        const base_address= await cookies.get("deliveryArea");
+        const user_city= await cookies.get("deliveryCity");
+      
+        await this.setState({ UserID,base_address ,user_city})
         this.FetchAllAddress();
 
-        console.log("addres check ---->", this.state.UserAddressData);
     }
 
     FetchAllAddress() {
@@ -128,9 +108,7 @@ class Address extends Component {
                     UserAddressData: [],
                     selectedDeliveryAddress: null,
                 });
-                this.setState({
-                    serviceArea: responseJson.serviceArea.sort((a, b) => a.area_name.localeCompare(b.area_name)),
-                })
+              
 
                 this.props.setAddress(responseJson.address[0])
             })
@@ -219,16 +197,7 @@ class Address extends Component {
                             <div class="modal-body">
                                 <form class="">
                                     <div class="form-row">
-                                        <div class="col-md-12 form-group">
-                                            <label class="form-label"> <label class="text-danger">*</label> Select Delivery Area</label>
-                                            <Select size="sm" onChange={this.handleChange} id="base_address" value={this.state.base_address}>
-                                                {this.state.serviceArea.map((areas, i) => {
-                                                    return (
-                                                        <option style={{}} value={areas.area_name}>{areas.area_name}</option>
-                                                    )
-                                                })}
-                                            </Select>
-                                        </div>
+                                        
                                         <div class="col-md-12 form-group"><label class="form-label"> <label class="text-danger">*</label> Full Name</label>
                                             <input onChange={this.onChange} placeholder="First & Last Name" id="user_name" value={this.state.user_name} type="text" class="form-control" />
                                         </div>
@@ -237,45 +206,18 @@ class Address extends Component {
                                             <input onChange={this.onChange} placeholder="10 Digit Mobile Number" id="user_mobile" value={this.state.user_mobile} type="tel" class="form-control" />
                                         </div>
 
-                                        {/* <label class="form-label">Locate your delivery address on map   <label class="text-danger"> - Move red location marker to your delivery address</label></label> */}
-                                        {/* <div class="container-fluid">
-                                            <div class="map-responsive">
-                                                <Map
-                                                    google={window.google}
-                                                    center={this.state.position}
-                                                    zoom={this.state.zoom}
-                                                    defaultZoom="Zoom"
-                                                    initialCenter={{
-                                                        lat: this.state.position.lat,
-                                                        lng: this.state.position.lng
-                                                    }}
-                                                    onIdle={this.handleMapIdle}
-                                                >
-                                                    {this.state.mapLoaded && (
-                                                        <Marker
-                                                            // map={window.google}
-                                                            draggable={true}
-                                                            position={{ lat: this.state.position.lat, lng: this.state.position.lng }}
-                                                            onDragend={(t, map, coord) => this.onMarkerDragEnd(coord)}
-                                                            name="Delivery Location" />
-                                                        // animation={window.google.maps.Animation.DROP} />
-                                                    )}
-                                                    <InfoWindow
-                                                        position={{ lat: (this.state.position.lat + 0.0018), lng: this.state.position.lng }}
-
-                                                    >
-                                                        <div>
-                                                            <p style={{ padding: 0, margin: 0 }}>hello</p>
-                                                        </div>
-                                                    </InfoWindow>
-                                                </Map>
-                                            </div>
-                                        </div> */}
+                                       
                                         <div class="col-md-12 form-group"><label class="form-label"> <label class="text-danger">*</label> Flat / House / Office No.</label>
                                             <input onChange={this.onChange} type="text" value={this.state.user_house_no} id="user_house_no" class="form-control" />
                                         </div>
                                         <div class="col-md-12 form-group"><label class="form-label"> <label class="text-danger">*</label> Street / Society / Office Name</label>
                                             <input type="text" onChange={this.onChange} value={this.state.user_street} id="user_street" class="form-control" />
+                                        </div>
+                                        <div class="col-md-12 form-group">
+                                            <label class="form-label"> <label class="text-danger">*</label> Delivery Area</label>
+                                           
+                                            <input  disabled placeholder="Delivery Area" id="base_address" value={this.state.base_address+" , "+this.state.user_city} type="text" class="form-control" />
+
                                         </div>
                                     </div>
                                 </form>
@@ -307,16 +249,12 @@ class Address extends Component {
                                             <div class="modal-body">
                                                 <form class="">
                                                     <div class="form-row">
-                                                        <div class="col-md-12 form-group">
-                                                            <label class="form-label"> <label class="text-danger">*</label> Select Delivery Area</label>
-                                                            <Select size="sm" onChange={this.handleChange} id="base_address" value={this.state.base_address}>
-                                                                {this.state.serviceArea.map((areas, i) => {
-                                                                    return (
-                                                                        <option style={{}} value={areas.area_name}>{areas.area_name}</option>
-                                                                    )
-                                                                })}
-                                                            </Select>
-                                                        </div>
+                                                    <div class="col-md-12 form-group">
+                                            <label class="form-label"> <label class="text-danger">*</label> Delivery Area</label>
+                                           
+                                            <input  disabled placeholder="Delivery Area" id="base_address" value={this.state.base_address+" , "+this.state.user_city} type="text" class="form-control" />
+
+                                        </div>
                                                         <div class="col-md-12 form-group"><label class="form-label"> <label class="text-danger">*</label> Full Name</label>
                                                             <input onChange={this.onChange} placeholder="First & Last Name" id="user_name" value={this.state.user_name} type="text" class="form-control" />
                                                         </div>
@@ -418,7 +356,6 @@ class Address extends Component {
     refreshSate() {
         this.setState({
             address: '',
-            base_address: this.state.serviceArea[0].area_name,
             position: {
                 lat: 26.7606,
                 lng: 83.3732
@@ -429,7 +366,6 @@ class Address extends Component {
             user_house_no: '',
             user_street: '',
             user_full_address: '',
-            user_city: 'Gorakhpur',
             user_addres_type: 'Home',
         })
     }
@@ -578,10 +514,7 @@ class Address extends Component {
             toast.error(msg)
 
         }
-        else if (base_address === '') {
-            this.setState({ base_address: this.state.serviceArea[0].area_name, });
-        }
-
+     
 
 
 

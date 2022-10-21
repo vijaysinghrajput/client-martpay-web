@@ -3,6 +3,7 @@ import Context from "./MainContext";
 import { reducer } from '../reducer/reducer';
 import Cookies from 'universal-cookie';
 import { Navigate } from 'react-router-dom';
+import { SeoData } from '../URL';
 
 import URL from "../URL";
 
@@ -19,6 +20,7 @@ const ContextProvider = props => {
         },
         storeCategoryData:[],
         storeProductsData:[],
+        Store_bussiness_info:[],
         user: {
             user_info: {
                 name: "",
@@ -44,7 +46,8 @@ const ContextProvider = props => {
         store_id: cookies.get("adminStoreId"),
         delivery_area: cookies.get("deliveryArea"),
         delivery_city: cookies.get("deliveryCity"),
-        website_name: "martpay.in"
+        website_name: "martpay.in",
+        about_company:"",
     };
 
     const reloadData = () => {
@@ -166,14 +169,8 @@ const storeBussinessRelode = () => {
         
         const urls = [
             'StoreProducts', 
-            'CustomerInformation',
-            'StoreProductsAssetes',
             'StoreCategory',
             'StoreBrand',
-            'MasterProducts',
-            'VendorInformation',
-            'StockInformation',
-            'StoreInformation',
             'Store_bussiness_info'
         ];
           try{
@@ -236,12 +233,26 @@ const storeBussinessRelode = () => {
 
     
 
-    // useEffect(() => {
-    //     const store_id = cookies.get("adminStoreId");
-    //     if (MainData.adminId) {
-    //         fetchIntialData(store_id, MainData.adminId);
-    //     }
-    // }, [MainData.adminId]);
+    const getUserDetails = (userID) => {
+        fetch(URL + "/APP-API/App/GetUserInfo", {
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+
+            },
+            body: JSON.stringify({
+                userID
+            })
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                functionality.setUserLogin(responseJson);
+                // functionality.fetchAllData(responseJson)
+            })
+            .catch((error) => {
+                //  console.error(error);
+            });
+    };
 
     useEffect(() => {
  
@@ -251,7 +262,7 @@ const storeBussinessRelode = () => {
             fetchIntialData(store_id, MainData.adminId);
         }
         if (userID && MainData.user.user_info.name == "") {
-            // getUserDetails(userID);
+            getUserDetails(userID);
         }
         // fetchData();
     },  [MainData.store_id]);

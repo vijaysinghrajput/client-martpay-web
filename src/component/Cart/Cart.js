@@ -24,7 +24,7 @@ const Cart = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const { auth, reloadData, condition, cartItems, products, removeFromCart, genRanHex, totalAmount, cartDetails, setCartDetails, removeCart } = useContext(MainContext);
     const [selectedAddress, setAddress] = useState();
-    const [selectedDeliveryTiming, setDeliveryTiming] = useState();
+    const [selectedDeliveryTiming, setDeliveryTiming] = useState(); 
     const [selectedPaymentOption, setPayment] = useState("COD");
     const [orderSuccessFull, setOrderSuccessFull] = useState(false);
     const [navigate, setNavigate] = useState(false);

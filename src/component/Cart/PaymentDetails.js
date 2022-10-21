@@ -7,11 +7,11 @@ import { Switch } from '@chakra-ui/react'
 export const PaymentDetails = ({ setCarryBagMain }) => {
 
     const data = useContext(MainContext);
-    const { cartItems, condition, setCartDetails, cartDetails, setTotalPrice, genRanHex, totalAmount } = data;
+    const { cartItems, Store_bussiness_info, setCartDetails, cartDetails, setTotalPrice, genRanHex, totalAmount } = data;
     const [total, setTotal] = useState(0);
     const [deliveryCharge, setDeliveryCharge] = useState(0);
     const [isDeliveryChargeApplied, setIsDeliveryChargeApplied] = useState(false);
-    const CARRY_BAG_CHARGE_MINIMUM_QTY = Number(condition[0]?.carry_bag_charge_minimum_qty);
+    const CARRY_BAG_CHARGE_MINIMUM_QTY = Number(Store_bussiness_info?.carry_bag_charge_minimum_qty);
     const [totalDiscount, setTotalDiscount] = useState(0);
     const [grandTotal, setGrandTotal] = useState(0);
     const youHaveToTakeCarryBag = cartItems.length > CARRY_BAG_CHARGE_MINIMUM_QTY ? true : false;
@@ -24,12 +24,12 @@ export const PaymentDetails = ({ setCarryBagMain }) => {
     }, [wantCarryBag]);
 
     const GetTotal = cartItems.reduce(function (a, b) {
-        const price = (b.price) - ((b.price) * (b.discount / 100))
+        const price = (b.sale_price)
         return a + Number(price * b["itemQuant"]);
     }, 0);
 
     const GetDiscount = cartItems.reduce(function (a, b) {
-        const price = ((b.price) * (b.discount / 100)) * b.itemQuant;
+        const price = ((b.sale_price) * (b.discount_in_percent / 100)) * b.itemQuant;
         return a + Number(price);
     }, 0);
 
@@ -38,20 +38,20 @@ export const PaymentDetails = ({ setCarryBagMain }) => {
     useEffect(() => {
         setTotal(GetTotal);
         setTotalDiscount(GetDiscount);
-        if (GetTotal < parseInt(condition[0]?.shipping)) {
-            setDeliveryCharge(condition[0].charges);
+        if (GetTotal < parseInt(Store_bussiness_info?.shipping)) {
+            setDeliveryCharge(Store_bussiness_info.charges);
             setIsDeliveryChargeApplied(true);
         } else {
             setDeliveryCharge(0);
             setIsDeliveryChargeApplied(false);
         }
-    }, [condition, data]);
+    }, [Store_bussiness_info, data]);
 
     useEffect(() => setTotalPrice(grandTotal), [grandTotal])
 
     useEffect(() => {
         cartDetails?.discountPriceByCoupon ? setGrandTotal(Number(total) + Number(deliveryCharge) - cartDetails?.discountPriceByCoupon) : setGrandTotal(Number(total) + Number(deliveryCharge));
-        if (GetTotal < parseInt(condition[0]?.shipping)) {
+        if (GetTotal < parseInt(Store_bussiness_info?.shipping)) {
             setCartDetails({
                 deliveryCharge: Number(deliveryCharge),
                 isDeliveryChargeApplied,
@@ -93,22 +93,22 @@ export const PaymentDetails = ({ setCarryBagMain }) => {
                         <p className="font-weight-bold small mb-2">Bill Details</p>
                         <p className="mb-1">Item Total <span className="small text-muted">({Math.round(cartItems.length)} item)</span> <span className="float-right text-dark"><span style={{ fontWeight: "700", marginRight: 2 }}>₹</span>{Math.round(total)}</span></p>
                         {/* <p className="mb-1">Store Charges <span className="float-right text-dark">$62.8</span></p> */}
-                        {Math.round(total) < condition[0]?.shipping && <> <p className="mb-3">Delivery Fee <span className="float-right text-dark">+ ₹{Math.round(deliveryCharge)}</span></p>
+                        {Math.round(total) < Store_bussiness_info?.shipping && <> <p className="mb-3">Delivery Fee <span className="float-right text-dark">+ ₹{Math.round(deliveryCharge)}</span></p>
                             <div class="alert alert-danger text-center p-1" role="alert">
-                                <small>Shop more for ₹{Math.round(condition[0]?.shipping - total)} to get free delivery.</small>
+                                <small>Shop more for ₹{Math.round(Store_bussiness_info?.shipping - total)} to get free delivery.</small>
                             </div> </>}
-                        {cartDetails?.couponApplied && <h6 className="mb-0 mt-2 text-success" style={{ fontSize: 14 }}><RiCoupon3Fill style={{ marginBottom: 3, marginRight: 5 }} />Coupon Discount @ {parseInt(cartDetails?.couponDetails[0].coupon_discount)}{cartDetails?.couponDetails[0].coupon_type == "amount" ? "₹ Flat" : "%"}<span className="float-right text-success">- ₹{Math.round(cartDetails.discountPriceByCoupon)}</span></h6>}
+                        {cartDetails?.couponApplied && <h6 className="mb-0 mt-2 text-success" style={{ fontSize: 14 }}><RiCoupon3Fill style={{ marginBottom: 3, marginRight: 5 }} />Coupon Discount @ {parseInt(cartDetails?.couponDetails.coupon_discount)}{cartDetails?.couponDetails.coupon_type == "amount" ? "₹ Flat" : "%"}<span className="float-right text-success">- ₹{Math.round(cartDetails.discountPriceByCoupon)}</span></h6>}
                         {youHaveToTakeCarryBag ?
                             <>
-                                <h6 className="mb-0 text-dark mt-3" style={{ fontSize: 14 }}>Carry Bag <Switch size='sm' isChecked={youHaveToTakeCarryBag} disabled /><span className="float-right">+ ₹{condition[0]?.carry_bag_charge}</span></h6>
+                                <h6 className="mb-0 text-dark mt-3" style={{ fontSize: 14 }}>Carry Bag <Switch size='sm' isChecked={youHaveToTakeCarryBag} disabled /><span className="float-right">+ ₹{Store_bussiness_info?.carry_bag_charge}</span></h6>
                                 <small>Carry bag is required for more than {CARRY_BAG_CHARGE_MINIMUM_QTY} items</small>
                             </>
                             :
-                            <h6 className="mb-0 text-dark mt-3" style={{ fontSize: 14 }}>Carry Bag <Switch size='md' ml={2} isChecked={wantCarryBag} onChange={e => setCarryBag(e.target.checked)} /><span className="float-right">+ ₹{condition[0]?.carry_bag_charge}</span></h6>
+                            <h6 className="mb-0 text-dark mt-3" style={{ fontSize: 14 }}>Carry Bag <Switch size='md' ml={2} isChecked={wantCarryBag} onChange={e => setCarryBag(e.target.checked)} /><span className="float-right">+ ₹{Store_bussiness_info?.carry_bag_charge}</span></h6>
                         }
                     </div>
                     <div className="p-3 border-top">
-                        <h5 className="mb-0">TO PAY <span className="float-right text-danger">₹ {wantCarryBag ? Math.round(grandTotal) + Number(condition[0]?.carry_bag_charge) : Math.round(grandTotal)}</span></h5>
+                        <h5 className="mb-0">TO PAY <span className="float-right text-danger">₹ {wantCarryBag ? Math.round(grandTotal) + Number(Store_bussiness_info?.carry_bag_charge) : Math.round(grandTotal)}</span></h5>
                     </div>
                 </div>
             </div>

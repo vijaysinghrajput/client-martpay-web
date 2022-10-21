@@ -82,7 +82,7 @@ class App extends Component {
 
 
   async componentDidMount() {
-    // cookies.remove("isAreaDecided");
+    cookies.remove("isAreaDecided");
 
     const store_id = cookies.get("adminStoreId");
     const delivery_area= cookies.get("deliveryArea");
@@ -260,7 +260,7 @@ class App extends Component {
               <Route path="/search" element={<SearchPage />} />
                
                 {/* USER ACCOUNT START */}
-                {/* <Route path="/orderSuccess" element={<OrderSuccessFull />} />
+                <Route path="/orderSuccess" element={<OrderSuccessFull />} />
               <Route path="/accountApp" element={<AccountPageApp />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/notification" element={<AccountPage />} />
@@ -275,7 +275,7 @@ class App extends Component {
               <Route path="/shipping-policy" element={<ConditionPage />} />
               <Route path="/return-and-refund-policy" element={<ConditionPage />} />
               <Route path="/faq" element={<ConditionPage />} />
-               */}
+              
 
                 {/* USER ACCOUNT END */}
 

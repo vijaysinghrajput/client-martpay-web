@@ -15,7 +15,7 @@ export const CartItemsCard = ({ data, outOfStock }) => {
     const [productData, setProductData] = useState({
         itemQuant: 0,
         productDetails: data,
-        price: data.price
+        sale_price: data.sale_price
     });
 
     useEffect(() => {
@@ -23,11 +23,11 @@ export const CartItemsCard = ({ data, outOfStock }) => {
         isAvilable ? setProductData({
             ...productData,
             itemQuant: isAvilable.itemQuant,
-            price: isAvilable.price
+            sale_price: isAvilable.sale_price
         }) : setProductData({
             ...productData,
             itemQuant: 0,
-            price: data.price
+            sale_price: data.sale_price
         })
     }, [mainData, data]);
 
@@ -40,13 +40,13 @@ export const CartItemsCard = ({ data, outOfStock }) => {
                 <div className="d-flex  align-items-center p-3">
                     <div className={!outOfStock && "sold-out"}>
                         {!outOfStock ? <img className='sold-out' src="https://pngimg.com/uploads/sold_out/sold_out_PNG73.png" alt="soldout" /> : null}
-                        <img src={URL + "/images/product-images/" + data.product_image} className="img-fluid" />
+                        <img src={data?.product_image} className="img-fluid" />
                     </div>
                     <div className="ml-3 text-dark text-decoration-none w-100">
-                        <h5 className="mb-1">{data.product_name} <small>{data.hindi_name}</small></h5>
-                        <p className="text-muted mb-2"><del className="text-success mr-1">₹{data.price}/{data.product_size + data.product_unit}</del> ₹{Math.round((data.price) - ((data.price) * (data.discount / 100)))}/{data.product_size + data.product_unit}</p>
+                        <h5 className="mb-1">{data.product_full_name} <small>{data.hindi_name}</small></h5>
+                        <p className="text-muted mb-2"><del className="text-success mr-1">₹{data.sale_price}/{data.product_size + data.product_unit}</del> ₹{Math.round((data.sale_price))}/{data.product_size + data.product_unit}</p>
                         <div className="d-flex align-items-center">
-                            <p className="total_price font-weight-bold m-0">₹{Math.round(((data.price) - ((data.price) * (data.discount / 100))) * data.itemQuant)}</p>
+                            <p className="total_price font-weight-bold m-0">₹{Math.round(((data.sale_price)) * data.itemQuant)}</p>
                             {/* <form id="myform" className="cart-items-number d-flex ml-auto" method="POST" action="#"> */}
                             {outOfStock ? <div className="ml-auto" style={isNotSmallerScreen ? { width: "20%" } : { width: "50%" }}>
                                 <div>
@@ -74,7 +74,7 @@ export const CartItemsCard = ({ data, outOfStock }) => {
                                                     onClick={() => mainData.addToCart({
                                                         ...data,
                                                         itemQuant: productData.itemQuant - 1,
-                                                        price: productData.price - data.price,
+                                                        sale_price: productData.sale_price - data.sale_price,
                                                         cartId: data.id
                                                     })}
                                                 />
@@ -86,7 +86,7 @@ export const CartItemsCard = ({ data, outOfStock }) => {
                                                     mainData.addToCart({
                                                         ...data,
                                                         itemQuant: productData.itemQuant + 1,
-                                                        price: parseInt(productData.price) + parseInt(data.price),
+                                                        sale_price: parseInt(productData.sale_price) + parseInt(data.sale_price),
                                                         cartId: data.id
                                                     })
                                                 }
