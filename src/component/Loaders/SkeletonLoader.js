@@ -59,12 +59,12 @@ export const PromoLoading = (props) => {
     )
 }
 
-export const ProductLoading = (props) => {
+export const ProductLoading = ({ md = 3 }) => {
 
     const [isNotSmallerScreen] = useMediaQuery("(min-width:1024px)");
 
     return (
-        <div class="col-6 col-md-3 mb-3">
+        <div class={`col-6 col-md-${md} mb-3`}>
             <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                 <div class="p-4">
                     <SkeletonTheme baseColor="#ebebeb" highlightColor="#fafafa">

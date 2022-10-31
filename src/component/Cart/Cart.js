@@ -22,9 +22,22 @@ const Cart = (props) => {
 
     const [isNotSmallerScreen] = useMediaQuery("(min-width:1024px)");
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { auth, reloadData, condition, cartItems, products, removeFromCart, genRanHex, totalAmount, cartDetails, setCartDetails, removeCart } = useContext(MainContext);
+    const {
+        auth,
+        reloadData,
+        store_delivery_slot,
+        condition,
+        cartItems,
+        storeProductsData,
+        removeFromCart,
+        genRanHex,
+        totalAmount,
+        cartDetails,
+        setCartDetails,
+        removeCart } = useContext(MainContext);
+    const data = useContext(MainContext);
     const [selectedAddress, setAddress] = useState();
-    const [selectedDeliveryTiming, setDeliveryTiming] = useState(); 
+    const [selectedDeliveryTiming, setDeliveryTiming] = useState();
     const [selectedPaymentOption, setPayment] = useState("COD");
     const [orderSuccessFull, setOrderSuccessFull] = useState(false);
     const [navigate, setNavigate] = useState(false);
@@ -33,9 +46,6 @@ const Cart = (props) => {
     const UserID = UserIDs === undefined ? "" : Base64.atob(UserIDs);
     const navigator = useNavigate();
 
-    useEffect(() => {
-        reloadData();
-    }, [])
 
     const checkOutData = {
         selectedAddress,
@@ -91,8 +101,10 @@ const Cart = (props) => {
 
     const checkIfAllItemsAvilable = () => {
 
+        console.debug("hey sir  ------------>", storeProductsData);
+
         const soldOutItems = cartItems.filter((data) => {
-            return products.find(o => o.id == data.id) == undefined;
+            return storeProductsData.find(o => o.id == data.id) == undefined;
         });
 
         if (soldOutItems.length) {
@@ -102,7 +114,7 @@ const Cart = (props) => {
 
     const removeSoldOutItems = () => {
         const soldOutItems = cartItems.filter((data) => {
-            return products.find(o => o.id == data.id) == undefined;
+            return storeProductsData.find(o => o.id == data.id) == undefined;
         })
         soldOutItems.map((items) => {
             removeFromCart(items.id)
@@ -121,7 +133,7 @@ const Cart = (props) => {
                                     <CartItems />
                                     {auth.isUserLogin && <>
                                         <Address setAddress={setAddress} />
-                                        <DeliveryTiming setDeliveryTiming={setDeliveryTiming} />
+                                        <DeliveryTiming store_delivery_slot={store_delivery_slot} setDeliveryTiming={setDeliveryTiming} />
                                         <PaymentOption selectedAddress={selectedAddress} setNavigate={checkIfAllItemsAvilable} setPayment={setPayment} />
                                     </>}
                                 </div>

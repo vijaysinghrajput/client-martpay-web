@@ -32,6 +32,7 @@ const Checkout = ({ setNavigate, checkOutData }) => {
     }, 0);
 
     useEffect(() => {
+        console.log("delivery slot ---->", data.store_delivery_slot)
         setCartDetails({
             ...checkOutData
         });

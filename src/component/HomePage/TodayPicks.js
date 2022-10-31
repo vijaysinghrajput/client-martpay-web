@@ -7,7 +7,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect } from 'react';
 
 const TodayPicks = (props) => {
-    const { storeProductsData, storeCategoryRelode,delivery_city,website_name} = useContext(ContextData);
+    const { storeProductsData, storeCategoryRelode, delivery_city, website_name } = useContext(ContextData);
 
     const data = useContext(ContextData);
     const [limit, setLimit] = useState(8);
@@ -41,24 +41,26 @@ const TodayPicks = (props) => {
                     style={{ overflow: 'hidden' }}
                     loader={<>
                         <div className="row">
-                            <ProductLoading />
-                            <ProductLoading />
-                            <ProductLoading />
-                            <ProductLoading />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
                         </div>
                     </>}
                     scrollThreshold={0.9}
                 >
                     <div class="row">
                         {data.isLoading ? <>
-                            <ProductLoading />
-                            <ProductLoading />
-                            <ProductLoading />
-                            <ProductLoading />
-                            <ProductLoading />
-                            <ProductLoading />
-                            <ProductLoading />
-                            <ProductLoading />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
+                            <ProductLoading md={2} />
                         </>
                             :
 

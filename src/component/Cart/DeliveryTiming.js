@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-export const DeliveryTiming = ({ setDeliveryTiming }) => {
+export const DeliveryTiming = ({ setDeliveryTiming, store_delivery_slot }) => {
+
+    const formateTime = (time) => {
+        const times = Number(time) > 12 ? Number(time) - 12 : Number(time);
+        return times;
+    }
 
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [timingSlot, setTimingSlot] = useState("5PM - 8PM");
+    const [timingSlot, setTimingSlot] = useState(`${formateTime(store_delivery_slot[0]?.slot_time_start) + store_delivery_slot[0]?.start_time_postfix} - ${formateTime(store_delivery_slot[0]?.slot_time_end) + store_delivery_slot[0]?.end_time_postfix}`);
     const [date] = useState(new Date());
     const DELIVERY_SLOT_TIMING = 18;
 
@@ -21,8 +26,8 @@ export const DeliveryTiming = ({ setDeliveryTiming }) => {
     useEffect(() => {
         // new Date().getDate() === selectedDate.getDate() && selectedDate.getHours() > 6 && setTimingSlot("5PM - 8PM");
         selectedDate.getHours() > DELIVERY_SLOT_TIMING && setSelectedDate(new Date(new Date(new Date().setDate(new Date().getDate() + 1)).setHours(0)));
-        setTimingSlot("5PM - 8PM")
-        console.log("khfsdf", selectedDate, " ok date --->", selectedDate.getHours(), "dates --->", date.getDate(), " nn", selectedDate.getDate())
+        setTimingSlot(`${formateTime(store_delivery_slot[0]?.slot_time_start) + store_delivery_slot[0]?.start_time_postfix} - ${formateTime(store_delivery_slot[0]?.slot_time_end) + store_delivery_slot[0]?.end_time_postfix}`)
+        // console.log("khfsdf", selectedDate, " ok date --->", selectedDate.getHours(), "dates --->", date.getDate(), " nn", selectedDate.getDate())
     }, [selectedDate])
 
     const getTomorrow = () => {
@@ -80,24 +85,26 @@ export const DeliveryTiming = ({ setDeliveryTiming }) => {
                                 </ul>
                                 <div className="tab-content filter bg-white" id="myTabContent">
                                     <div className="tab-pane fade show active" id="mon" role="tabpanel" aria-labelledby="mon-tab">
-                                        <div onClick={() => setTimingSlot("7AM - 11AM")} className={selectedDate.getHours() > 6 ? "custom-control border-bottom px-0 custom-radio inactive" : "custom-control border-bottom px-0 custom-radio"}>
-                                            <input className="custom-control-input" type="radio" name="exampleRadios" id="mon1" defaultValue="mon1" defaultChecked={selectedDate.getHours() > 6 ? false : true} />
-                                            <label className="custom-control-label py-3 w-100 px-3" htmlFor="mon1">
-                                                <i className="icofont-clock-time mr-2" /> 7AM - 11AM <span style={{ fontSize: 10, marginLeft: 5 }}>(Sunrise Delivery)</span>
-                                            </label>
-                                        </div>
-                                        <div onClick={() => setTimingSlot("1PM - 3AM")} className={selectedDate.getHours() > 13 ? "custom-control border-bottom px-0 custom-radio inactive" : "custom-control border-bottom px-0 custom-radio"}>
-                                            <input className="custom-control-input" type="radio" name="exampleRadios" id="mon1" defaultValue="mon1" defaultChecked={selectedDate.getHours() > 13 ? false : true} />
-                                            <label className="custom-control-label py-3 w-100 px-3" htmlFor="mon1">
-                                                <i className="icofont-clock-time mr-2" /> 1PM - 3PM <span style={{ fontSize: 10, marginLeft: 5 }}>(Afternoon Delivery)</span>
-                                            </label>
-                                        </div>
-                                        <div onClick={() => setTimingSlot("5PM - 8PM")} className={selectedDate.getHours() > DELIVERY_SLOT_TIMING ? "custom-control border-bottom px-0 custom-radio inactive" : "custom-control border-bottom px-0 custom-radio"}>
-                                            <input className="custom-control-input" type="radio" name="exampleRadios" id="mon2" defaultValue="mon2" defaultChecked={selectedDate.getHours() > DELIVERY_SLOT_TIMING ? false : true} />
-                                            <label className="custom-control-label py-3 w-100 px-3" htmlFor="mon2">
-                                                <i className="icofont-clock-time mr-2" /> 5PM - 8PM <span style={{ fontSize: 10, marginLeft: 5 }}>(Sunset Delivery)</span>
-                                            </label>
-                                        </div>
+                                        {store_delivery_slot &&
+                                            store_delivery_slot.sort((a, b) => parseFloat(a.s_number) - parseFloat(b.s_number)).map((slots, i) => {
+                                                return (
+                                                    <>
+                                                        <div onClick={() => setTimingSlot(`${formateTime(slots.slot_time_start) + slots.start_time_postfix} - ${formateTime(slots.slot_time_end) + slots.end_time_postfix}`)} className={selectedDate.getHours() > 12 ? "custom-control border-bottom px-0 custom-radio inactive" : "custom-control border-bottom px-0 custom-radio"}>
+                                                            <input className="custom-control-input" type="radio" name="exampleRadios" id={i} defaultValue={i} />
+                                                            <label className="custom-control-label py-3 w-100 px-3" htmlFor={i}>
+                                                                <i className="icofont-clock-time mr-2" /> {`${formateTime(slots.slot_time_start) + slots.start_time_postfix} - ${formateTime(slots.slot_time_end) + slots.end_time_postfix}`} <span style={{ fontSize: 10, marginLeft: 5 }}>({slots.slot_name} Delivery)</span>
+                                                            </label>
+                                                        </div>
+                                                        {/* <div onClick={() => setTimingSlot("5PM - 8PM")} className={selectedDate.getHours() > DELIVERY_SLOT_TIMING ? "custom-control border-bottom px-0 custom-radio inactive" : "custom-control border-bottom px-0 custom-radio"}>
+                                                            <input className="custom-control-input" type="radio" name="exampleRadios" id="mon2" defaultValue="mon2" defaultChecked={selectedDate.getHours() > DELIVERY_SLOT_TIMING ? false : true} />
+                                                            <label className="custom-control-label py-3 w-100 px-3" htmlFor="mon2">
+                                                                <i className="icofont-clock-time mr-2" /> 5PM - 8PM <span style={{ fontSize: 10, marginLeft: 5 }}>(Sunset Delivery)</span>
+                                                            </label>
+                                                        </div> */}
+                                                    </>
+                                                )
+                                            })
+                                        }
                                     </div>
                                 </div>
                             </div>
