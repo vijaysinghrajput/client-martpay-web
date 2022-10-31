@@ -60,7 +60,7 @@ const Category = (props) => {
                                 {storeCategoryData.map((item, i) => {
                                     if (item.category_level == 0) {
                                         return (
-                                            <div className="col-6 col-sm-6 col-md-1 mt-2" key={i}>
+                                            <div className="col-3 col-sm-3 col-md-2 col-lg-2 col-xl-1 mt-4" key={i}>
                                                 <div className="list-card bg-none h-100">
                                                     <div className="p-1">
 

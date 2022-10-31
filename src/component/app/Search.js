@@ -9,26 +9,26 @@ const Search = (props) => {
 
     const [isNotSmallerScreen] = useMediaQuery("(min-width:1024px)");
 
-    const { products } = useContext(MainContext);
+    const { storeProductsData } = useContext(MainContext);
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchedProducts, setSearchedProducts] = useState([]);
-
+    const [searchedstoreProductsData, setSearchedstoreProductsData] = useState([]);
+ 
     useEffect(() => {
-        if (products.length != 0) {
-            const filteredClubs = products.filter(Club => {
+        if (storeProductsData.length != 0) {
+            const filteredClubs = storeProductsData.filter(Club => {
                 let ClubLowercase = (
                     Club.product_name
                 ).toLowerCase();
                 let searchTermLowercase = searchTerm.toLowerCase();
                 return ClubLowercase.indexOf(searchTermLowercase) > -1;
             });
-            setSearchedProducts(filteredClubs);
+            setSearchedstoreProductsData(filteredClubs);
         }
     }, [searchTerm]);
 
     useEffect(() => {
-        setSearchedProducts(products)
-    }, [products]);
+        setSearchedstoreProductsData(storeProductsData)
+    }, [storeProductsData]);
 
     return (
         <>
@@ -38,24 +38,24 @@ const Search = (props) => {
                         <div class="input-group-prepend">
                             <button class="border-0 btn btn-outline-secondary text-success bg-white"><i class="icofont-search"></i></button>
                         </div>
-                        {/* <input type="text" class="shadow-none border-0 form-control pl-0" placeholder="Search for Products.." aria-label="" aria-describedby="basic-addon1" /> */}
-                        <input type="text" onChange={e => setSearchTerm(e.target.value)} class="shadow-none border-0 form-control pl-0" id="inlineFormInputGroupUsername2" placeholder="Search for Products.." />
+                        {/* <input type="text" class="shadow-none border-0 form-control pl-0" placeholder="Search for storeProductsData.." aria-label="" aria-describedby="basic-addon1" /> */}
+                        <input type="text" onChange={e => setSearchTerm(e.target.value)} class="shadow-none border-0 form-control pl-0" id="inlineFormInputGroupUsername2" placeholder="Search for storeProductsData.." />
                     </div>
                     <div className="mt-3 bg-white" style={{ position: "fixed", width: "94%", height: "74%", overflowY: "auto", padding: "0px 10px 10px" }}>
                         <div className="row">
-                            {searchedProducts.length ?
-                                searchedProducts.slice(0, 8).map((product, i) => {
+                            {searchedstoreProductsData.length ?
+                                searchedstoreProductsData.slice(0, 8).map((product, i) => {
                                     return (
                                         <>
                                             <div className="col-12 p-2">
-                                                <Link to={"/" + (product.product_name + " delivery in gorakhpur").replace(/\s/g, "-").toLowerCase() + "/" + product.id}>
+                                                <Link to={"/" + (product.product_uniq_slug_name) + "/" + product.id}>
                                                     <div className="row">
                                                         <div className="col-2 d-flex justify-content-center">
-                                                            <img style={{ height: 40 }} src={URL + "/images/product-images/" + product.product_image} alt="" />
+                                                            <img style={{ height: 40 }} src={product?.product_image} alt="" />
                                                         </div>
                                                         <div className="col-10 d-flex align-items-center">
-                                                            <h5 className='mb-0' style={{ fontSize: 16, color: "#000" }}>{product.product_name} <small>{product.hindi_name}</small></h5>
-                                                            <span className='ml-auto' style={{ color: "#000", marginRight: 10 }}>₹{Math.round((product?.price) - (product?.price * product?.discount / 100))}/{product?.product_size + product?.product_unit}</span>
+                                                            <h5 className='mb-0' style={{ fontSize: 16, color: "#000" }}>{product.product_name} </h5>
+                                                            <span className='ml-auto' style={{ color: "#000", marginRight: 10 }}>₹{Math.round((product?.sale_price))}/{product?.product_size + product?.product_unit}</span>
                                                         </div>
                                                     </div>
                                                 </Link>

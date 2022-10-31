@@ -82,6 +82,7 @@ class App extends Component {
 
 
   async componentDidMount() {
+
     // cookies.remove("isAreaDecided");
 
     const store_id = cookies.get("adminStoreId");

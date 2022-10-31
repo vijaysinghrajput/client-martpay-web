@@ -34,7 +34,7 @@ export const BasicVegitableFruit = ({ data }) => {
 
     return (
         <>
-            <div class="col-6 col-md-2 mb-3">
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-3">
                 <div
                     class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm d-flex align-items-end">
                     <div class="list-card-image">
@@ -47,7 +47,7 @@ export const BasicVegitableFruit = ({ data }) => {
                                     class="img-fluid item-img w-100 mb-3 product_image"
 
                                 />
-                                <h6 style={{ color: "#000", fontSize: 12 }}>{data.product_full_name} </h6>
+                                <h6 style={{ color: "#000", fontSize: 12 }}>{data.product_name} </h6>
                             </Link>
                             <div class="d-flex align-items-center">
                                 <h6 class="sale_price m-0 text-success">₹{Math.round((data.sale_price))}/{data.product_size + data.product_unit}</h6>

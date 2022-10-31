@@ -67,14 +67,14 @@ const Header = () => {
       };
     }, [ref]);
   }
-
+ 
   useOutsideAlerter(wrapperRef);
 
   useEffect(() => {
     if (storeProductsData.length != 0) {
       const filteredClubs = storeProductsData.filter(Club => {
         let ClubLowercase = (
-          Club.product_full_name
+          Club.product_name
         ).toLowerCase();
         let searchTermLowercase = searchTerm.toLowerCase();
         return ClubLowercase.indexOf(searchTermLowercase) > -1;
@@ -226,13 +226,13 @@ const Header = () => {
                 <div class="search-items-layout" aria-labelledby="dropdownMenuButton">
                   {searchedProduct.length ? searchedProduct.slice(0, 10).map((item, i) => {
                     return (
-                      <Link onClick={onBlur} class="dropdown-item" to={"/" + (item.product_full_name + " delivery in gorakhpur").replace(/\s/g, "-").toLowerCase() + "/" + item.id}>
+                      <Link onClick={onBlur} class="dropdown-item border-bottom"to={"/" + (item.product_uniq_slug_name) + "/" + item.id}>
                         <div >
                           <img src={item?.product_image} style={{ height: 30, marginRight: 5 }} />
-                          {item.product_full_name}
-                          <span className='ml-2 ml-auto'>₹{Math.round((item?.sale_price))}/{item?.product_size + item?.product_unit}</span>
+                          {item.product_name}
+                          <span className='ml-2 ml-auto'> ₹{Math.round((item?.sale_price))}/{item?.product_size + item?.product_unit}</span>
                         </div>
-                      </Link>
+                      </Link> 
                     )
                   }) : <div className="col-12">
                     <div className="text-center mt-1">
@@ -288,10 +288,10 @@ const Header = () => {
                       {storeCategoryData.map((item, i) => {
                         if (item.category_level == 0) {
                           return (
-                            <Link to={"/" + (item.category_name + " delivery in gorakhpur").replace(/\s/g, "-").toLowerCase() + "/" + item.master_category_id + "/" + item.category_name}>
+                            <Link to={"/" + (item.category_name).replace(/\s/g, "-").toLowerCase() + "/" + item.master_category_id + "/" + item.category_name}>
                               <a class="dropdown-item" href="#">{item.category_name}</a>
                             </Link>
-                          )
+                          ) 
                         }
                       })}
                     </>
