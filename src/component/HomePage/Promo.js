@@ -8,13 +8,14 @@ import { PromoLoading } from '../Loaders/SkeletonLoader';
 
 const Promo = (props) => {
 
-    const data = useContext(contextData);
+    const { store_banner_list } = useContext(contextData);
 
     const [bannerData, setBannerData] = useState([]);
 
     useEffect(() => {
-        setBannerData(data.banners);
-    }, [data.banners]);
+        setBannerData(store_banner_list);
+        console.log("adtadtadtadtatda ====>", store_banner_list);
+    }, [store_banner_list]);
 
     const options = {
         autoplay: true,
@@ -42,17 +43,18 @@ const Promo = (props) => {
                 <div class="d-flex align-items-center mb-3">
                     <h5 class="m-0">Promos for you</h5>
                 </div>
-                {data.isLoading ? <>
+                {!store_banner_list ? <>
                     <PromoLoading />
                 </> :
                     <div class="promo-sliders pb-0 mb-0">
                         {bannerData.length ? (
                             <OwlCarousel className='owl-theme' {...options}>
                                 {bannerData.map((item, i) => {
+                                    console.log("jbuvtcrxewz", item)
                                     return (
                                         <div className="item">
                                             <div class="osahan-slider-item mx-2">
-                                                <a href="#"><img src={URL + '/images/offer-image/' + item.image}
+                                                <a href="#"><img src={item.image}
                                                     class="img-fluid mx-auto rounded" alt="Responsive image" /></a>
                                             </div>
                                         </div>

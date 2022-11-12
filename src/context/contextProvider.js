@@ -18,9 +18,9 @@ const ContextProvider = props => {
         auth: {
             isUserLogin: false
         },
-        storeCategoryData:[],
-        storeProductsData:[],
-        Store_bussiness_info:[],
+        storeCategoryData: [],
+        storeProductsData: [],
+        Store_bussiness_info: [],
         user: {
             user_info: {
                 name: "",
@@ -30,7 +30,8 @@ const ContextProvider = props => {
                 provider_pic: ""
             },
         },
-
+        mobile: atob(cookies.get("userMobile")),
+        store_banner_list: [],
         banners: [],
         categories: [],
         products: [],
@@ -47,12 +48,12 @@ const ContextProvider = props => {
         delivery_area: cookies.get("deliveryArea"),
         delivery_city: cookies.get("deliveryCity"),
         website_name: "martpay.in",
-        about_company:"",
+        about_company: "",
     };
 
     const reloadData = () => {
         const store_id = cookies.get("adminStoreId");
-    
+
         // letsCheck(store_id, MainData.adminId);
         fetchIntialData(store_id, MainData.adminId);
     }
@@ -60,144 +61,143 @@ const ContextProvider = props => {
 
     const storeBrandRelode = () => {
 
-          const store_id = cookies.get("adminStoreId");
-          const adminId =  MainData.adminId;
-           fetch(URL + "/APP-API/Reload/StoreBrand", {
-                        method: 'POST',
-                        header: {
-                            'Accept': 'application/json',
-                            'Content-type': 'application/json'
-                        },
-                        body: JSON.stringify({ store_id, adminId  })
-                    }).then((response) => response.json())
-                        .then((responseJson) => {
+        const store_id = cookies.get("adminStoreId");
+        const adminId = MainData.adminId;
+        fetch(URL + "/APP-API/Reload/StoreBrand", {
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ store_id, adminId })
+        }).then((response) => response.json())
+            .then((responseJson) => {
 
-                            functionality.fetchAllData({ ...responseJson })
-                       
-                        })
-                        .catch((error) => {
-                          
-                        });
+                functionality.fetchAllData({ ...responseJson })
 
-                        storeProductRelode()
+            })
+            .catch((error) => {
+
+            });
+
+        storeProductRelode()
 
     }
 
-    
+
 
     const storeCategoryRelode = () => {
 
         const store_id = cookies.get("adminStoreId");
-        const adminId =  MainData.adminId;
-         fetch(URL + "/APP-API/Reload/StoreCategory", {
-                      method: 'POST',
-                      header: {
-                          'Accept': 'application/json',
-                          'Content-type': 'application/json'
-                      },
-                      body: JSON.stringify({ store_id, adminId  })
-                  }).then((response) => response.json())
-                      .then((responseJson) => {
+        const adminId = MainData.adminId;
+        fetch(URL + "/APP-API/Reload/StoreCategory", {
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ store_id, adminId })
+        }).then((response) => response.json())
+            .then((responseJson) => {
 
-                          functionality.fetchAllData({ ...responseJson })
-                     
-                      })
-                      .catch((error) => {
-                        
-                      });
+                functionality.fetchAllData({ ...responseJson })
 
-                      storeProductRelode()
+            })
+            .catch((error) => {
 
-  }
+            });
 
-  
-  const storeProductRelode = () => {
+        storeProductRelode()
 
-    const store_id = cookies.get("adminStoreId");
-    const adminId =  MainData.adminId;
-     fetch(URL + "/APP-API/Reload/StoreProducts", {
-                  method: 'POST',
-                  header: {
-                      'Accept': 'application/json',
-                      'Content-type': 'application/json'
-                  },
-                  body: JSON.stringify({ store_id, adminId  })
-              }).then((response) => response.json())
-                  .then((responseJson) => {
-
-                      functionality.fetchAllData({ ...responseJson })
-                 
-                  })
-                  .catch((error) => {
-                    
-                  });
+    }
 
 
-}
+    const storeProductRelode = () => {
 
-const storeBussinessRelode = () => {
+        const store_id = cookies.get("adminStoreId");
+        const adminId = MainData.adminId;
+        fetch(URL + "/APP-API/Reload/StoreProducts", {
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ store_id, adminId })
+        }).then((response) => response.json())
+            .then((responseJson) => {
 
-    const store_id = cookies.get("adminStoreId");
-    const adminId =  MainData.adminId;
-     fetch(URL + "/APP-API/Reload/Store_bussiness_info", {
-                  method: 'POST',
-                  header: {
-                      'Accept': 'application/json',
-                      'Content-type': 'application/json'
-                  },
-                  body: JSON.stringify({ store_id, adminId  })
-              }).then((response) => response.json())
-                  .then((responseJson) => {
+                functionality.fetchAllData({ ...responseJson })
 
-                      functionality.fetchAllData({ ...responseJson })
-                 
-                  })
-                  .catch((error) => {
-                    
-                  });
+            })
+            .catch((error) => {
+
+            });
 
 
-}
+    }
+
+    const storeBussinessRelode = () => {
+
+        const store_id = cookies.get("adminStoreId");
+        const adminId = MainData.adminId;
+        fetch(URL + "/APP-API/Reload/Store_bussiness_info", {
+            method: 'POST',
+            header: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ store_id, adminId })
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                console.log("data 1 ====>", responseJson);
+                functionality.fetchAllData({ ...responseJson })
+
+            })
+            .catch((error) => {
+
+            });
+
+
+    }
 
 
 
 
-  
 
-    const fetchIntialData = async(store_id, adminId) => {
 
-        
+    const fetchIntialData = async (store_id, adminId) => {
+
+
         const urls = [
-            'StoreProducts', 
+            'StoreProducts',
             'StoreCategory',
             'StoreBrand',
             'Store_bussiness_info'
         ];
-          try{
+        try {
 
-            let res = await Promise.all(urls.map(e_url=>
+            let res = await Promise.all(urls.map(e_url =>
                 fetch(URL + "/APP-API/Reload/" + e_url, {
                     method: 'POST',
                     header: { 'Accept': 'application/json', 'Content-type': 'application/json' },
                     body: JSON.stringify({ store_id, adminId })
                 })))
             let resJson = await Promise.all(res.map(e => e.json()))
-            resJson = resJson.map(responseJson => 
-                {
-                    functionality.fetchAllData({ ...responseJson })
-                    functionality.setGloabalLoading(false)
+            resJson = resJson.map(responseJson => {
+                functionality.fetchAllData({ ...responseJson })
+                functionality.setGloabalLoading(false)
 
-                }
-              
-                
-                )
-              
+            }
+
+
+            )
+
 
             console.log('true ho gaya')
-          }catch(err) {
+        } catch (err) {
             console.log(err)
-          }
         }
+    }
 
     const functionality = {
 
@@ -226,12 +226,12 @@ const storeBussinessRelode = () => {
         setGloabalLoading: data => dispatch({ type: "LOADING", data }),
         removeDataToCurrentGlobal: data => dispatch({ type: "REMOVE_DATA", data }),
         updateDataToCurrentGlobal: (data, where) => dispatch({ type: "UPDATE_DATA", data, where }),
-        reloadData,storeBrandRelode,storeCategoryRelode,storeProductRelode,storeBussinessRelode,
- 
+        reloadData, storeBrandRelode, storeCategoryRelode, storeProductRelode, storeBussinessRelode,
+
 
     }
 
-    
+
 
     const getUserDetails = (userID) => {
         fetch(URL + "/APP-API/App/GetUserInfo", {
@@ -255,7 +255,7 @@ const storeBussinessRelode = () => {
     };
 
     useEffect(() => {
- 
+
         const userID = cookies.get("userID");
         const store_id = cookies.get("adminStoreId");
         if (store_id) {
@@ -265,7 +265,7 @@ const storeBussinessRelode = () => {
             getUserDetails(userID);
         }
         // fetchData();
-    },  [MainData.store_id]);
+    }, [MainData.store_id]);
 
 
 

@@ -8,21 +8,21 @@ import Seo from '../Seo'
 import { SeoData } from '../../URL';
 
 const HomeComponent = (props) => {
-    
+
 
     return (
         <>
 
 
 
-        
+
 
 
             <OshanContainer >
 
                 <Category />
 
-                {/* <Promo /> */}
+                <Promo />
 
                 <TodayPicks />
 

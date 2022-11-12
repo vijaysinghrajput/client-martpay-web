@@ -15,7 +15,7 @@ const cookies = new Cookies();
 const Checkout = ({ setNavigate, checkOutData }) => {
 
     const data = useContext(MainContext);
-    const { setCartDetails, cartItems, cartDetails } = data;
+    const { setCartDetails, cartItems, cartDetails, store_coupon_list, store_id, mobile } = data;
     const [coupon, setCoupon] = useState(cartDetails?.coupon);
     const [couponApplied, setCouponApplied] = useState(cartDetails?.couponApplied == undefined ? false : cartDetails?.couponApplied);
     const [couponDetails, setCouponDetails] = useState(cartDetails?.couponDetails);
@@ -59,7 +59,7 @@ const Checkout = ({ setNavigate, checkOutData }) => {
 
     const isCouponValid = () => {
 
-        fetch(URL + "/APP-API/App/CouponAction", {
+        fetch(URL + "/APP-API/Billing/cheakUserUsedCouponApp", {
             method: 'post',
             header: {
                 'Accept': 'application/json',
@@ -67,7 +67,8 @@ const Checkout = ({ setNavigate, checkOutData }) => {
             },
             body: JSON.stringify({
                 coupon,
-                UserID
+                mobile,
+                store_id
             })
 
         })

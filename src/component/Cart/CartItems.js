@@ -6,10 +6,10 @@ import { CartItemsCard } from '../ProductsCards/CartItems';
 
 const CartItems = (props) => {
 
-    const data = useContext(MainContext); 
-    const { auth,storeProductsData, storeCategoryRelode,delivery_city,website_name} = useContext(ContextData);
-console.log("auth",auth)
-    const { cartItems  } = data;
+    const data = useContext(MainContext);
+    const { auth, storeProductsData, Store_bussiness_info } = useContext(ContextData);
+    console.log("auth", auth)
+    const { cartItems } = data;
     const navigation = useNavigate();
     const location = useLocation();
     const GetTotal = cartItems.reduce(function (a, b) {
@@ -42,15 +42,26 @@ console.log("auth",auth)
                             })}
                             <div>
                                 {auth.isUserLogin ?
-                                    <a href="#" className="text-decoration-none btn btn-block p-3" type="button" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="true" aria-controls="collapsetwo">
-                                        <div className="rounded shadow bg-success d-flex align-items-center p-3 text-white">
-                                            <div className="more">
-                                                <h6 className="m-0">Subtotal ₹{Math.round(GetTotal)}</h6>
-                                                <p className="small m-0">Proceed to checkout</p>
+                                    Store_bussiness_info.minimum_order > Math.round(GetTotal) ? <>
+                                        <div className="text-decoration-none btn btn-block p-3">
+                                            <div className="rounded shadow bg-danger d-flex align-items-center p-4 text-white">
+                                                <div className="more">
+                                                    <h6 className="m-0">Please shop more for {Store_bussiness_info.minimum_order - Math.round(GetTotal)} to place your order..!</h6>
+                                                </div>
+                                                <div className="ml-auto"><i className="icofont-simple-right" /></div>
                                             </div>
-                                            <div className="ml-auto"><i className="icofont-simple-right" /></div>
                                         </div>
-                                    </a> : <Link to="/login" state={location.pathname} className="text-decoration-none btn btn-block p-3">
+                                    </>
+                                        :
+                                        <a href="#" className="text-decoration-none btn btn-block p-3" type="button" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="true" aria-controls="collapsetwo">
+                                            <div className="rounded shadow bg-success d-flex align-items-center p-3 text-white">
+                                                <div className="more">
+                                                    <h6 className="m-0">Subtotal ₹{Math.round(GetTotal)}</h6>
+                                                    <p className="small m-0">Proceed to checkout</p>
+                                                </div>
+                                                <div className="ml-auto"><i className="icofont-simple-right" /></div>
+                                            </div>
+                                        </a> : <Link to="/login" state={location.pathname} className="text-decoration-none btn btn-block p-3">
                                         <div className="rounded shadow bg-danger d-flex align-items-center p-4 text-white">
                                             <div className="more">
                                                 <h6 className="m-0">Please Login First</h6>

@@ -35,7 +35,7 @@ const Cart = (props) => {
         cartDetails,
         setCartDetails,
         removeCart } = useContext(MainContext);
-    const data = useContext(MainContext);
+    const { Store_bussiness_info } = useContext(MainContext);
     const [selectedAddress, setAddress] = useState();
     const [selectedDeliveryTiming, setDeliveryTiming] = useState();
     const [selectedPaymentOption, setPayment] = useState("COD");
@@ -46,6 +46,10 @@ const Cart = (props) => {
     const UserID = UserIDs === undefined ? "" : Base64.atob(UserIDs);
     const navigator = useNavigate();
 
+    const GetTotal = cartItems.reduce(function (a, b) {
+        const price = Math.round(((b.sale_price)) * b.itemQuant)
+        return a + Number(price);
+    }, 0);
 
     const checkOutData = {
         selectedAddress,
@@ -131,7 +135,7 @@ const Cart = (props) => {
                             {navigate ? <Checkout setNavigate={setNavigate} checkOutData={checkOutData} /> : (
                                 <div className="accordion" id="accordionExample">
                                     <CartItems />
-                                    {auth.isUserLogin && <>
+                                    {auth.isUserLogin && Store_bussiness_info.minimum_order < Math.round(GetTotal) && <>
                                         <Address setAddress={setAddress} />
                                         <DeliveryTiming store_delivery_slot={store_delivery_slot} setDeliveryTiming={setDeliveryTiming} />
                                         <PaymentOption selectedAddress={selectedAddress} setNavigate={checkIfAllItemsAvilable} setPayment={setPayment} />
