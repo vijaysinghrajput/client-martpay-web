@@ -2,7 +2,7 @@ import React, { Component, useEffect } from 'react';
 import ContextProvider from './context/contextProvider';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './page/HomePage';
-import HomePageSeo from './page/HomePageSeo';
+import './App.css';
 
 import LoginPage from './page/LoginPage';
 
@@ -16,23 +16,16 @@ import CartPage from './page/CartPage';
 import ProductDetailsPage from './page/ProductDetailsPage';
 import CategoryPage from './page/CategoryPage';
 import AccountPageApp from './page/AccountPageApp';
-import NotFoundPage from './page/NotFoundPage';
-import SeoKeyWord from './component/SeoKeyWord'
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 
 import URL from './URL'
 import { constants } from './URL'
 
 import SearchPage from './page/SearchPage';
 import { OrderSuccessFull } from './component/Cart/OrderSuccessfull';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import $ from 'jquery';
 import Select, { components } from "react-select";
 
 import Cookies from 'universal-cookie';
-import { RiTruckLine } from 'react-icons/ri';
+import { Box, Image, SimpleGrid } from '@chakra-ui/react';
 const cookies = new Cookies();
 
 
@@ -170,58 +163,63 @@ class App extends Component {
 
     if (cookies.get('isAreaDecided') == undefined || cookies.get('isAreaDecided') == false) {
       return (
-        <Modal style={{ marginTop: 30 }}
-          size="lg"
+        <div
+          style={{
+            width: "100%",
+            height: "100vh",
+            margin: "auto",
+            background: "#fff",
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "6rem"
+          }}
+        >
+          <SimpleGrid columns={{ base: 2 }}>
+
+            <Box>
+              <Box>
+                <Image src='/img/logo.svg' margin={"auto"} display="block" />
+              </Box>
+              <form class="mb-4 w-75" style={{ margin: "auto", paddingTop: "2rem" }}>
+                <div class="form-row">
+                  <div class="col-md-12 form-group">
+                    <label class="form-label"> <label class="text-danger">*</label> Select Delivery City</label>
+                    <Select
+
+                      defaultValue={{ label: this.state.store_delivery_city_name }}
+                      value={{ label: this.state.store_delivery_city_name }}
 
 
-          show={true} >
-          <Modal.Header className='d-flex justify-content-center'>
-
-            <div >
-              <video loop="true" autoplay="autoplay" controls={false} muted>
-                <source src="/img/Delivery.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </Modal.Header>
-
-          <Modal.Body>
-            <form class="mb-4">
-              <div class="form-row">
-                <div class="col-md-12 form-group">
-                  <label class="form-label"> <label class="text-danger">*</label> Select Delivery City</label>
-                  <Select
-
-                    defaultValue={{ label: this.state.store_delivery_city_name }}
-                    value={{ label: this.state.store_delivery_city_name }}
-
-
-                    onChange={(e) => this.CityHandleChange(e)}
-                    options={this.state.store_delivery_city}
-                  />
-                </div>
-
-                <div class="col-md-12 form-group">
-                  <label class="form-label"> <label class="text-danger">*</label> Select Delivery Area</label>
-                  <Select
-                    value={{ label: this.state.store_delivery_area_name }}
-                    onChange={(e) => this.AreaHandleChange(e)}
-                    options={this.state.store_delivery_area}
-                  />
-                </div>
-
-                <div style={{ marginBottom: 250 }} >
-
-                  <div className='col-12 d-flex justify-content-center mt-2'>
-                    <button onClick={() => this.SaveAddress()} type="button" class="btn btn-success text-center">Shop Now</button>
+                      onChange={(e) => this.CityHandleChange(e)}
+                      options={this.state.store_delivery_city}
+                    />
                   </div>
+
+                  <div class="col-md-12 form-group">
+                    <label class="form-label"> <label class="text-danger">*</label> Select Delivery Area</label>
+                    <Select
+                      value={{ label: this.state.store_delivery_area_name }}
+                      onChange={(e) => this.AreaHandleChange(e)}
+                      options={this.state.store_delivery_area}
+                    />
+                  </div>
+
+                  <div className='col-md-12'>
+                    <button onClick={() => this.SaveAddress()} type="button" className="btn btn-custom text-center">Shop Now</button>
+                  </div>
+
+
                 </div>
+              </form>
+            </Box>
+            <Box>
+              <Image src="https://media.istockphoto.com/id/1225013303/vector/vector-illustration-of-a-delivery-man-with-face-mask-delivering-an-order-on-a-motorcycle.jpg?s=612x612&w=0&k=20&c=Qe8cniQbXMQ7HKw1Z1wSN4owUjzAGczqRJvPbHehqME=" />
+            </Box>
 
+          </SimpleGrid>
 
-              </div>
-            </form>
-          </Modal.Body>
+        </div >
 
-        </Modal>
       )
     }
 

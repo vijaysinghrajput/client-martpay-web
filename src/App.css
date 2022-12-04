@@ -61,3 +61,12 @@
     transform: rotate(360deg);
   }
 }
+
+.btn-custom {
+  background: #55bc75;
+  color: #fff;
+  padding: 10px;
+  /* font-size: 13px; */
+  border-radius: 4px;
+  width: 100%;
+}
